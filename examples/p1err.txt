@@ -1,0 +1,7 @@
+start>
+	1nt x = read_val(number)  		// variables can't start with or contain numbers, only at the end
+	int y = 11o     			// 11o can't be number/variable
+	int z = x + y  
+	char = 'a?gg' 				// char is only one character between ' '
+<end
+

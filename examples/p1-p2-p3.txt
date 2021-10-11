@@ -1,0 +1,66 @@
+// User defined type:
+//	my_type typeName {
+//		type field1
+//		...
+//		type fieldn
+//	}
+
+//P1 Swap 2 numbers if the second number is smaller. Numbers are read from the user
+start>
+	int val1
+	val1 = read_val(number)
+	int val2
+	val2 = read_val(number)
+	int aux
+	
+	In_case val2 < val1:
+	{
+		aux = val1
+		val1 = val2
+		val2 = aux
+	}
+<end
+
+
+
+//P2 No. of divisors for a number:
+
+start>
+	int nr
+	int d
+	int no_of_divisors
+
+	nr = read_val(number)
+	d = 1
+	no_of_divisors = 0
+
+	While d <= nr:
+	{
+		In_case d divides nr:
+			Increment no_of_divisors
+		Increment d
+	}
+	
+	show(no_of_divisors)
+<end
+
+
+
+//P3 Sum of even numbers from array:
+
+start>
+	array the_numbers
+	the_numbers = [2,4,5,7,9]
+	int sum
+	sum = 0
+	For_each n from the_numbers:
+	{
+		In_case 2 divides n:
+			sum = sum + n
+	}
+	show(sum)
+<end
+
+
+
+
