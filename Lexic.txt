@@ -28,7 +28,7 @@ c. constants:
 	4. string
 		char = letter | digit
 		string = char{char}
-		constchar = "string"
+		constchar = """string"""
 	
 d. user defined type:
 	cTYPE = integer | character | string | boolean
