@@ -15,7 +15,7 @@ b. identifiers:
 	letter = "A" | "B" | "C" | ... | "Z" | "a" | "b" | ... | "z"
 	digit = "0" | "1" | ... | "9"
 	- sequence of letters and digits, such that the digits are only at the end
-	identifier = letter | letter {letter | digit}
+	identifier = letter | letter{letter}{digit}
 
 c. constants:
 	1. integer
