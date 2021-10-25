@@ -1,0 +1,14 @@
+//P3 Sum of even numbers from array:
+
+start>
+	array the_numbers
+	the_numbers = [2,4,5,7,9]
+	int sum
+	sum = 0
+	For_each n from the_numbers:
+	{
+		In_case 2 divides n:
+			sum = sum + n
+	}
+	show(sum)
+<end

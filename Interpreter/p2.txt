@@ -1,0 +1,19 @@
+//P2 No. of divisors for a number:
+start>
+	int nr
+	int d
+	int no_of_divisors
+
+	nr = read_val(int)
+	d = 1
+	no_of_divisors = 0
+
+	While d <= nr:
+	{
+		In_case d divides nr:
+			Increment no_of_divisors
+		Increment d
+	}
+	
+	show(no_of_divisors)
+<end
