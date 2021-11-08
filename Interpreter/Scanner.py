@@ -1,13 +1,6 @@
 from ST import SymbolTable
+from FiniteAutomata import FiniteAutomata
 import re
-
-
-def isConstant(token):
-    return re.match(r'^(0|[+-]?[1-9][0-9]*)$|^\'.\'$|^\".*\"$', token) is not None
-
-
-def isIdentifier(token):
-    return re.match(r'^[a-z](_|[a-zA-Z])*[0-9]*$', token) is not None
 
 
 class Scanner:
@@ -18,6 +11,9 @@ class Scanner:
         self.readTokens()
         self.PIF = []
         self.ST = SymbolTable(22)
+        # use FA instead of regex
+        self.identifierFA = FiniteAutomata("FA-identifier.in")
+        self.intConstantFA = FiniteAutomata("FA-int-constant.in")
 
     def readTokens(self):
         with open("token.in","r") as f:
@@ -61,7 +57,7 @@ class Scanner:
             temp_exception = None
             if sep is None:
                 break
-            if isIdentifier(c[:min_idx+len(sep)]):
+            if self.isIdentifier(c[:min_idx+len(sep)]):
                 temp_exception = sep
                 continue
             if len(c[:min_idx]) > 0:
@@ -82,7 +78,8 @@ class Scanner:
         tokens = []
         temp_str = None
         for t in initial_tokens:
-            if temp_str is None and (t in self.keywords or t in self.operators or t in self.separators or isConstant(t) or isIdentifier(t)):
+            if temp_str is None and (t in self.keywords or t in self.operators or
+                                     t in self.separators or self.isConstant(t) or self.isIdentifier(t)):
                 tokens.append(t)
                 continue
             if t[0] == "\"" and temp_str is None:  # reconstruct string that contains whitespace
@@ -116,10 +113,11 @@ class Scanner:
                 for token in tokens:
                     if token in self.keywords+self.operators+self.separators:
                         self.addToPIF(token,(-1,-1))
-                    elif isIdentifier(token):
+                    elif self.identifierFA.isSequenceAccepted(token):   # self.isIdentifier(token):
                         index = self.ST.add(token)
                         self.addToPIF("identifier", index)
-                    elif isConstant(token):
+                    elif self.intConstantFA.isSequenceAccepted(token) \
+                            or self.isCharOrStringConstant(token):   # self.isConstant(token):
                         index = self.ST.add(token)
                         self.addToPIF("constant", index)
                     else:
@@ -135,4 +133,14 @@ class Scanner:
                 for el in self.PIF:
                     pif_file.write(str(el)+"\n")
 
+    @staticmethod
+    def isConstant(token):
+        return re.match(r'^(0|[+-]?[1-9][0-9]*)$|^\'.\'$|^\".*\"$', token) is not None
 
+    @staticmethod
+    def isCharOrStringConstant(token):
+        return re.match(r'^\'.\'$|^\".*\"$', token) is not None
+
+    @staticmethod
+    def isIdentifier(token):
+        return re.match(r'^_*[a-z](_|[a-zA-Z])*[0-9]*$', token) is not None
