@@ -21,13 +21,13 @@ class Grammar:
     def getGrammarFromFile(self):
         with open(self.filename, 'r') as file:
             split_line = file.readline().strip().split('=')[1].split(' ')
-            for item in split_line:
+            for item in split_line:                 # N
                 self.nonTerminals.append(item)
-            split_line = file.readline().strip().split('=')[1].split(' ')
-            for item in split_line:
+            split_line = file.readline().strip()[2:].split(' ')
+            for item in split_line:                 # T
                 self.terminals.append(item)
-            self.starting = file.readline().strip().split('=')[1]
-            file.readline()
+            self.starting = file.readline().strip().split('=')[1]   # S
+            file.readline()                         # P
             for line in file:
                 index = 1
                 lhs, rhs = line.split('->')
@@ -43,6 +43,7 @@ class Grammar:
         for k in self.productions:
             ks = k.split()
             if len(ks) > 1:
+                print("WTF")
                 return False
             for elem in self.productions[k]:
                 alpha = elem[0].split()
@@ -54,7 +55,7 @@ class Grammar:
         return True
 
     def productions_for_nonTerminal(self, nonT):
-        print('Productions for non-terminal ' + str(nonT) + ': ')
+        print('Productions for non-terminal "' + str(nonT) + '": ')
         theStr = ''
         for k in self.productions.keys():
             if k == nonT:
@@ -65,7 +66,7 @@ class Grammar:
         print(theStr)
 
     def __str__(self):
-        return 'non terminal = { ' + ', '.join(self.nonTerminals) + ' }\n' \
+        return '\nGrammar:\nnon terminal = { ' + ', '.join(self.nonTerminals) + ' }\n' \
                + 'terminal = { ' + ', '.join(self.terminals) + ' }\n' \
                + 'starting = ' + str(self.starting) + '\n' \
                + 'productions = { \n' + self.getProductionString() + '}\n'

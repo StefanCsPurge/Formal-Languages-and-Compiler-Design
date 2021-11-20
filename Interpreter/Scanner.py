@@ -12,11 +12,11 @@ class Scanner:
         self.PIF = []
         self.ST = SymbolTable(22)
         # use FA instead of regex
-        self.identifierFA = FiniteAutomata("FA-identifier.in")
-        self.intConstantFA = FiniteAutomata("FA-int-constant.in")
+        self.identifierFA = FiniteAutomata("IO_files/FA-identifier.in")
+        self.intConstantFA = FiniteAutomata("IO_files/FA-int-constant.in")
 
     def readTokens(self):
-        with open("token.in","r") as f:
+        with open("IO_files/token.in", "r") as f:
             for _ in range(15):  # we have 15 operators
                 operator = f.readline().strip()
                 self.operators.append(operator)
@@ -126,10 +126,10 @@ class Scanner:
             if correct:
                 print("Lexically correct.")
 
-            with open("ST.out","w") as st_file:
+            with open("IO_files/ST.out", "w") as st_file:
                 st_file.write(str(self.ST))
 
-            with open("PIF.out","w") as pif_file:
+            with open("IO_files/PIF.out", "w") as pif_file:
                 for el in self.PIF:
                     pif_file.write(str(el)+"\n")
 

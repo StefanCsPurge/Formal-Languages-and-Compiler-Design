@@ -3,27 +3,27 @@
 
 from Scanner import Scanner
 from console import Console
-from grammar import Grammar
+from Grammar import Grammar
 
 if __name__ == '__main__':
     scanner = Scanner()
 
-    # scanner.runScanner("p1.txt")
+    # scanner.runScanner("programs/p1.txt")
     #
-    # scanner.runScanner("p2.txt")
+    # scanner.runScanner("programs/p2.txt")
     #
-    # scanner.runScanner("p3.txt")
+    # scanner.runScanner("programs/p3.txt")
 
-    # scanner.runScanner("p1err.txt")
+    # scanner.runScanner("programs/p1err.txt")
 
     # Finite automata console
     console = Console()
     # console.run()
 
-    gr = Grammar("g1.txt")
+    gr = Grammar("IO_files/g2.txt")
     print(gr)
     print("CFG check:",gr.CFG_check())
-    gr.productions_for_nonTerminal('C')
+    gr.productions_for_nonTerminal('term')
 
 
 

@@ -3,7 +3,7 @@ from FiniteAutomata import FiniteAutomata
 
 class Console:
     def __init__(self):
-        self.FA = FiniteAutomata("FA.in")
+        self.FA = FiniteAutomata("IO_files/FA.in")
 
     @staticmethod
     def showMenu():
