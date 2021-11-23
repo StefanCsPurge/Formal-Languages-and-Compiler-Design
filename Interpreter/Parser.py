@@ -44,8 +44,11 @@ class Parser:
         C.add(s0)
         finished = False
         while not finished:
+            finished = True
             for state in C:
                 for X in self.grammar.terminals + self.grammar.nonTerminals:
                     nextState = self.goto(state, X)
-
+                    if len(nextState) and nextState not in C:
+                        finished = False
+                        C.add(nextState)
         return C
