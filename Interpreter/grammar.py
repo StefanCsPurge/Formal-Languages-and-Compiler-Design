@@ -54,7 +54,7 @@ class Grammar:
                         return False
         return True
 
-    def productions_for_nonTerminal(self, nonT):
+    def print_productions_for_nonTerminal(self, nonT):
         print('Productions for non-terminal "' + str(nonT) + '": ')
         theStr = ''
         for k in self.productions.keys():
@@ -64,6 +64,14 @@ class Grammar:
                     theStr += t[0] + ' | '
                 theStr = theStr[:-3] + '\n'
         print(theStr)
+
+    def get_productions_for_nonTerminal(self, nonT):
+        prods = []
+        for k in self.productions.keys():
+            if k == nonT:
+                for t in self.productions[nonT]:
+                    prods.append(t[0])
+        return prods
 
     def __str__(self):
         return '\nGrammar:\nnon terminal = { ' + ', '.join(self.nonTerminals) + ' }\n' \

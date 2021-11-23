@@ -23,7 +23,7 @@ if __name__ == '__main__':
     gr = Grammar("IO_files/g2.txt")
     print(gr)
     print("CFG check:",gr.CFG_check())
-    gr.productions_for_nonTerminal('term')
+    gr.print_productions_for_nonTerminal('term')
 
 
 
