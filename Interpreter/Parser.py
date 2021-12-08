@@ -15,11 +15,11 @@ class Parser:
         self.buildLR0Table()
 
     def closure(self, itemCollection):
-        C = itemCollection  # set
+        C = deepcopy(itemCollection)  # set
         finished = False
         while not finished:  # while C does modify
             finished = True
-            for item in itemCollection:
+            for item in C:
                 alpha = item[1]  # prefix
                 beta = item[3]
                 if len(beta) == 0:
@@ -30,31 +30,36 @@ class Parser:
                 for prod in self.grammar.get_productions_for_nonTerminal(B):
                     theItem = (B, '', '.', prod)
                     if theItem not in C:
-                        C.append(theItem)
+                        C.add(theItem)
                         finished = False
+                if not finished:
+                    break
         return C
 
     def goto(self, state, X):
         stateSet = set()
         for item in state:
-            if item[3].split()[0] == X:  # if beta contains X on the first pos
-                newItem = (item[0], item[1] + ' ' + X, '.', item[3][2:])   # remove X from beta
+            beta = item[3]
+            if item[0] != "S^" and len(beta) > 0 and beta.split()[0] == X:  # if beta contains X on the first pos
+                newItem = (item[0], item[1] + ' ' + X, '.', item[3][len(X)+1:])   # remove X from beta
                 stateSet.add(newItem)
         return self.closure(stateSet)
 
     def CanonicalCollection(self):
-        C = set()
-        s0 = self.closure({('S^', '', '.', 'S')})  # enriched grammar S^
-        C.add(s0)
+        C = []
+        s0 = self.closure( { ('S^','','.',self.grammar.starting) } )  # enriched grammar S^
+        C.append(s0)   # add initial state to the collection
         finished = False
         while not finished:
             finished = True
             for state in C:
                 for X in self.grammar.terminals + self.grammar.nonTerminals:
                     nextState = self.goto(state, X)
-                    if len(nextState) and nextState not in C:
+                    if len(nextState) > 0 and nextState not in C:
                         finished = False
-                        C.add(nextState)
+                        C.append(nextState)
+                if not finished:
+                    break
         return C
 
     def buildLR0Table(self):
@@ -78,27 +83,55 @@ class Parser:
                 for item in state:
                     if len(item[3]) == 0:  # dot is last
                         entry.reduceNonTerminal = item[0]  # NON terminal
-                        entry.reduceContent = item
-                        action = "reduce"
+                        entry.reduceRHS = item[1]  # alpha
+                        action = "reduce " + self.LR0ItemStr(item,True)
+                        break
 
             if action == "":
                 action = "error"
 
+            self.checkConflicts(state)
             entry.action = action
 
-    @staticmethod
-    def checkConflicts(state):
+            for X in self.grammar.terminals + self.grammar.nonTerminals:
+                nextState = self.goto(state,X)
+                if len(nextState) > 0:
+                    nextStateIndex = canonicalCollection.index(nextState)
+                    entry.shifts.append((X,nextStateIndex))   # goTos
+
+            self.table.append(entry)
+
+            print(self.table[idx])
+            idx += 1
+
+    def checkConflicts(self, state):
         count_dotLast = 0
         count_dotMiddle = 0
         # Count for dot on final position
-        for s in state:
-            if len(s[3]) == 0:
+        for it in state:
+            if len(it[3]) == 0:
                 count_dotLast += 1
         # Count for dot on middle position
-        for s in state:
-            if len(s[2]) == 0:
+        for it in state:
+            if not len(it[3]) == 0:
                 count_dotMiddle += 1
         if count_dotLast > 1:
-            raise Exception("REDUCE - REDUCE conflict for state \n" + state + "\n\nThe given grammar is not LR(0)!")
+            raise Exception("REDUCE - REDUCE conflict for state \n" + self.stateStr(state) +
+                            "\n\nThe given grammar is not LR(0)")
         if count_dotLast == 1 and count_dotMiddle > 0:
-            raise Exception("SHIFT - REDUCE conflict for state \n" + state + "\n\nThe given grammar is not LR(0)!")
+            raise Exception("SHIFT - REDUCE conflict for state \n" + self.stateStr(state) +
+                            "\n\nThe given grammar is not LR(0)")
+
+    @staticmethod
+    def LR0ItemStr(item, production = False):
+        if production:
+            return "{} -> {}{}".format(item[0], item[1], item[3])
+        return "[{} -> {}{}{}]".format(item[0],item[1].replace(" ", ""), item[2], item[3].replace(" ", ""))
+
+    @staticmethod
+    def stateStr(state):
+        the_str = "{ "
+        for it in state:
+            the_str += Parser.LR0ItemStr(it) + " "
+        the_str += "}"
+        return the_str

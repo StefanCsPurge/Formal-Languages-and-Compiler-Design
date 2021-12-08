@@ -3,8 +3,8 @@ class TableEntry:
         self.stateIndex = 0
         self.action = ''
         self.reduceNonTerminal = ''
-        # Array of strings
-        self.reduceContent = []
+        # RHS to reduce
+        self.reduceRHS = ""
         # Array of tuples (string, int)
         self.shifts = []
 
@@ -13,5 +13,5 @@ class TableEntry:
                + 'state index: ' + str(self.stateIndex) + '\n' \
                + 'action: ' + self.action + '\n' \
                + 'reduce Non Terminal: ' + self.reduceNonTerminal + '\n' \
-               + 'reduce Content: ' + str(self.reduceContent) + '\n' \
+               + 'reduce RHS: ' + self.reduceRHS + '\n' \
                + 'shifts: ' + str(self.shifts) + '\n'

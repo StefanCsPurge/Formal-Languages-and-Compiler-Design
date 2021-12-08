@@ -1,9 +1,8 @@
-N=S A B C D
-T=a b c
+N=S L
+T=( ) x ,
 S=S
 P
-S->a A | a C
-A->A B
-B->b
-C->a C | C D
-D->b
+S->( L )
+S->x
+L->S
+L->L , S
