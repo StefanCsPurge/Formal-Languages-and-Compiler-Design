@@ -18,6 +18,13 @@ class Grammar:
             theStr = theStr[:-3] + '\n'
         return theStr
 
+    def getProduction(self, index):
+        for k in self.productions.keys():
+            for p in self.productions[k]:
+                if p[1] == index:
+                    return k, p[0].strip()
+        return None
+
     def getGrammarFromFile(self):
         with open(self.filename, 'r') as file:
             split_line = file.readline().strip().split('=')[1].split(' ')
@@ -27,9 +34,10 @@ class Grammar:
             for item in split_line:                 # T
                 self.terminals.append(item)
             self.starting = file.readline().strip().split('=')[1]   # S
-            file.readline()                         # P
+            file.readline()
+            # P
+            index = 1
             for line in file:
-                index = 1
                 lhs, rhs = line.split('->')
                 rhs = rhs.strip().split(' | ')
                 for value in rhs:

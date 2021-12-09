@@ -8,6 +8,9 @@ class TableEntry:
         # Array of tuples (string, int)
         self.shifts = []
 
+    def reduceProductionString(self):
+        return self.reduceNonTerminal + " -> " + self.reduceRHS
+
     def __str__(self):
         return 'Table Entry:\n' \
                + 'state index: ' + str(self.stateIndex) + '\n' \
