@@ -7,6 +7,11 @@ class ParserOutput:
     def __init__(self, inputSequence: list, grammar: Grammar):
         self.root = None
         self.createTreeFromSequence(inputSequence,grammar)
+        self.outNodes = []
+
+    def getOutNodes(self, node: TreeNode):
+        self.getTreeNodes(node)
+        return self.outNodes
 
     def createTreeFromSequence(self, inputSequence, grammar):
         lastParent = None
@@ -73,4 +78,14 @@ class ParserOutput:
             print(node)
             if node.leftChild is not None:
                 self.printTree(node.leftChild)
+            node = node.leftSibling
+
+    def getTreeNodes(self, node: TreeNode):
+        if node is None:
+            return
+
+        while node is not None:
+            self.outNodes.append(str(node))
+            if node.leftChild is not None:
+                self.getTreeNodes(node.leftChild)
             node = node.leftSibling

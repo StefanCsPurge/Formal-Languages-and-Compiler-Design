@@ -1,0 +1,6 @@
+TreeNode: index =   0   | info =   S    | parent =  -1   | rightSibling =  -1   | leftChild =   1   | level =   0
+TreeNode: index =   1   | info =   (    | parent =   0   | rightSibling =   2   | leftChild =  -1   | level =   1
+TreeNode: index =   2   | info =   L    | parent =   0   | rightSibling =  -1   | leftChild =   3   | level =   1
+TreeNode: index =   3   | info =   )    | parent =   2   | rightSibling =   4   | leftChild =  -1   | level =   1
+TreeNode: index =   4   | info =   S    | parent =   2   | rightSibling =  -1   | leftChild =   5   | level =   2
+TreeNode: index =   5   | info =   x    | parent =   4   | rightSibling =  -1   | leftChild =  -1   | level =   3

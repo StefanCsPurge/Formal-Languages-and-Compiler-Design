@@ -162,6 +162,14 @@ class Parser:
                     print("\nOutput table:")
                     outputTree.printTree(outputTree.root)
 
+                    # Save the tree in an output file (parsing_tree_table.out)
+                    with open('IO_files/parsing_tree_table.out', 'w') as out_file:
+                        outNodes = outputTree.getOutNodes(outputTree.root)
+                        for node in outNodes:
+                            out_file.write(str(node) + '\n')
+                        out_file.close()
+                    print('Tree saved successfully !\n')
+
                     finished = True
 
                 elif entry.action == "error":
