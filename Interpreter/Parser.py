@@ -63,6 +63,8 @@ class Parser:
 
     def buildLR0Table(self):
         canonicalCollection = self.CanonicalCollection()
+        self.printCanonicalCollection(canonicalCollection)
+
         idx = 0
         for state in canonicalCollection:
             entry = TableEntry()
@@ -103,7 +105,7 @@ class Parser:
             # print(self.table[idx])
             idx += 1
 
-    def parse(self, inputStack: list):
+    def parse(self, inputStack: list, outFile):
         workingStack = []
         outputStack = []
         outputNumberStack = []
@@ -163,7 +165,7 @@ class Parser:
                     outputTree.printTree(outputTree.root)
 
                     # Save the tree in an output file (parsing_tree_table.out)
-                    with open('IO_files/parsing_tree_table.out', 'w') as out_file:
+                    with open(f'IO_files/{outFile}', 'w') as out_file:
                         outNodes = outputTree.getOutNodes(outputTree.root)
                         for node in outNodes:
                             out_file.write(str(node) + '\n')
@@ -179,9 +181,13 @@ class Parser:
         except Exception as _:
             raise Exception("ERROR at state " + str(stateIndex) + " after symbol " + lastSymbol)
 
-    def parseSequence(self, sequence: str):
-        inputStack = list(sequence[::-1])
-        self.parse(inputStack)
+    def parseSequence(self, sequence, outFile):
+        if type(sequence) == str:
+            inputStack = list(sequence[::-1])
+        else:
+            inputStack = sequence[::-1]
+        print(inputStack)
+        self.parse(inputStack, outFile)
 
     def checkConflicts(self, state, index):
         count_dotLast = 0
@@ -214,3 +220,13 @@ class Parser:
             the_str += Parser.LR0ItemStr(it) + " "
         the_str += "}"
         return the_str
+
+    @staticmethod
+    def printCanonicalCollection(col):
+        print("Canonical collection:")
+        for i in range(len(col)):
+            print(f"State {i}: ", end="")
+            for item in col[i]:
+                print(Parser.LR0ItemStr(item), end=" ")
+            print()
+        print()
