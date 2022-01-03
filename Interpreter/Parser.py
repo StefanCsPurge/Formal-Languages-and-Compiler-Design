@@ -179,6 +179,11 @@ class Parser:
                     finished = True
 
         except Exception as _:
+            ### This is a COMMENT made by Ana-Doris Moisuc & Andrei-Ovidiu Muntean
+            # Exception is too general. You could have used a custom exception with stateIndex and lastSymbol
+            # parameters. By having general except clauses, you may transmit wrong error messages to the user
+            # in case of an RuntimeError
+            ###
             raise Exception("ERROR at state " + str(stateIndex) + " after symbol " + lastSymbol)
 
     def parseSequence(self, sequence, outFile):
@@ -209,6 +214,12 @@ class Parser:
 
     @staticmethod
     def LR0ItemStr(item, production = False):
+        ### This is a COMMENT made by Ana-Doris Moisuc & Andrei-Ovidiu Muntean
+        # Try looking into f-strings in Python 3.6
+        # instead of  "{} -> {}{}".format(item[0], item[1], item[3]) you could have written
+        #             f"{item[0]} -> {item[1]}{item[3]}"
+        # which is way easier to comprehend
+        ###
         if production:
             return "{} -> {}{}".format(item[0], item[1], item[3])
         return "[{} -> {}{}{}]".format(item[0],item[1].replace(" ", ""), item[2], item[3].replace(" ", ""))
@@ -224,6 +235,11 @@ class Parser:
     @staticmethod
     def printCanonicalCollection(col):
         print("Canonical collection:")
+        ### This is a COMMENT made by Ana-Doris Moisuc & Andrei-Ovidiu Muntean
+        # Try looking into enumerate
+        # A more pythonic way of achieving the same result would be
+        # for i, col_items in enumerate(col):
+        ###
         for i in range(len(col)):
             print(f"State {i}: ", end="")
             for item in col[i]:

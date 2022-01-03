@@ -4,6 +4,10 @@ class TreeNode:
         self.index = 0
         self.info = info
         self.parent = None
+        ### This is a COMMENT made by Ana-Doris Moisuc & Andrei-Ovidiu Muntean
+        # Please specify that leftSibling and leftChild are of type TreeNode
+        # because some may mistake them for indexes
+        ###
         self.leftSibling = None
         self.leftChild = None
         self.level = 0

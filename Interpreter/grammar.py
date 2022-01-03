@@ -1,7 +1,20 @@
+### This is a COMMENT made by Ana-Doris Moisuc & Andrei-Ovidiu Muntean
+# Please remove the comment below. The parsing strategy you've used has nothing to do with
+# the Grammar class and it should not be in grammar.py
+###
 # 1c: LR(0)
 
 class Grammar:
     def __init__(self, filename):
+        ### This is a COMMENT made by Ana-Doris Moisuc & Andrei-Ovidiu Muntean
+        # By having just the filename in the constructor, you achieve two undesirable things:
+        # 1. A Grammar object should always be consistent. Your object is inconsistent when you initialize it
+        #    and remains inconsistent until you call the `getGrammarFromFile` method on it. A better approach
+        #    would be to have a static method that gets a filename and generates a new grammar, having all the
+        #    required fields in the Grammar constructor
+        # 1. Your Grammar class contains an irrelevant field. (filename) This is used only for generating the
+        #    Grammar and is of no use afterwards.
+        ###
         self.nonTerminals = []
         self.terminals = []
         self.starting = ''
@@ -26,11 +39,17 @@ class Grammar:
         return None
 
     def getGrammarFromFile(self):
+        ### This is a COMMENT made by Ana-Doris Moisuc & Andrei-Ovidiu Muntean
+        # From the design perspective, I find it more intuitive for this method to return a Grammar
+        ###
         with open(self.filename, 'r') as file:
             split_line = file.readline().strip().split('=')[1].split(' ')
             for item in split_line:                 # N
                 self.nonTerminals.append(item)
             split_line = file.readline().strip()[2:].split(' ')
+            ### This is a COMMENT made by Ana-Doris Moisuc & Andrei-Ovidiu Muntean
+            # A more pythonic way of adding all the elements of one list to another would be: self.terminals.extend(split_line)
+            ###
             for item in split_line:                 # T
                 self.terminals.append(item)
             self.starting = file.readline().strip().split('=')[1]   # S
