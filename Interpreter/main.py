@@ -55,7 +55,7 @@ def evaluateG2():
 
         g2Seq = readSequence("IO_files/PIF.out").split()
         print(g2Seq)
-        parser.parseSequence(g2Seq, "out2.txt")
+        parser.parseSequence(g2Seq, "out1.txt")
 
     except Exception as e:
         # traceback.print_exc()
