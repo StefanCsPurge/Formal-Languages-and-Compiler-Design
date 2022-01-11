@@ -1,0 +1,1587 @@
+Terminals unused in grammar
+
+    DIVIDES
+    INCREMENT
+    NOT
+    DOT
+    '+'
+    '-'
+    '*'
+    '/'
+    MOD
+    COMMA
+    SEMI_COLON
+    SPACE
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: START_ID cmpdstmt END_ID
+
+    2 declaration: type ID
+
+    3 type: INTEGER
+    4     | STRING
+    5     | ARRAY
+
+    6 cmpdstmt: stmt
+    7         | stmt cmpdstmt
+
+    8 stmt: simplstmt NEW_LINE
+    9     | structstmt
+
+   10 simplstmt: assignstmt
+   11          | iostmt
+   12          | declaration
+
+   13 structstmt: ifstmt
+   14           | whilestmt
+   15           | forstmt
+
+   16 ifstmt: IN_CASE boolean_condition COLON OPEN_CURLY_BRACKET NEW_LINE cmpdstmt CLOSED_CURLY_BRACKET tempIf
+
+   17 tempIf: ε
+   18       | ELSE OPEN_CURLY_BRACKET cmpdstmt CLOSED_CURLY_BRACKET
+   19       | NEW_LINE
+
+   20 forstmt: FOR forheader COLON OPEN_CURLY_BRACKET cmpdstmt CLOSED_CURLY_BRACKET
+
+   21 forheader: ID FOR_FROM ID
+
+   22 whilestmt: WHILE boolean_condition COLON OPEN_CURLY_BRACKET NEW_LINE cmpdstmt CLOSED_CURLY_BRACKET
+
+   23 assignstmt: ID ATRIB expression
+   24           | ID ATRIB iostmt
+
+   25 expression: arithmetic2 arithmetic1
+
+   26 arithmetic1: PLUS arithmetic2 arithmetic1
+   27            | MINUS arithmetic2 arithmetic1
+   28            | ε
+
+   29 arithmetic2: multiply2 multiply1
+
+   30 multiply1: MUL multiply2 multiply1
+   31          | DIV multiply2 multiply1
+   32          | ε
+
+   33 multiply2: OPEN_ROUND_BRACKET expression CLOSED_ROUND_BRACKET
+   34          | CONST
+   35          | ID
+   36          | IndexedIdentifier
+
+   37 IndexedIdentifier: ID OPEN_RIGHT_BRACKET CONST CLOSED_RIGHT_BRACKET
+
+   38 iostmt: READ_VAL OPEN_ROUND_BRACKET type CLOSED_ROUND_BRACKET
+   39       | SHOW OPEN_ROUND_BRACKET ID CLOSED_ROUND_BRACKET
+   40       | SHOW OPEN_ROUND_BRACKET CONST CLOSED_ROUND_BRACKET
+
+   41 condition: expression GT expression
+   42          | expression GE expression
+   43          | expression LT expression
+   44          | expression LE expression
+   45          | expression EQ expression
+   46          | expression NE expression
+
+   47 boolean_condition: condition boolean_cond_temp
+
+   48 boolean_cond_temp: ε
+   49                  | AND boolean_condition
+   50                  | OR boolean_condition
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    '*' (42)
+    '+' (43)
+    '-' (45)
+    '/' (47)
+    error (256)
+    START_ID (258) 1
+    END_ID (259) 1
+    AND (260) 49
+    ARRAY (261) 5
+    ELSE (262) 18
+    FOR (263) 20
+    FOR_FROM (264) 21
+    INTEGER (265) 3
+    IN_CASE (266) 16
+    OR (267) 50
+    READ_VAL (268) 38
+    STRING (269) 4
+    WHILE (270) 22
+    DIVIDES (271)
+    INCREMENT (272)
+    SHOW (273) 39 40
+    ID (274) 2 21 23 24 35 37 39
+    CONST (275) 34 37 40
+    ATRIB (276) 23 24
+    EQ (277) 45
+    NE (278) 46
+    LE (279) 44
+    GE (280) 42
+    LT (281) 43
+    GT (282) 41
+    NOT (283)
+    DOT (284)
+    PLUS (285) 26
+    MINUS (286) 27
+    DIV (287) 31
+    MOD (288)
+    MUL (289) 30
+    OPEN_CURLY_BRACKET (290) 16 18 20 22
+    CLOSED_CURLY_BRACKET (291) 16 18 20 22
+    OPEN_ROUND_BRACKET (292) 33 38 39 40
+    CLOSED_ROUND_BRACKET (293) 33 38 39 40
+    OPEN_RIGHT_BRACKET (294) 37
+    CLOSED_RIGHT_BRACKET (295) 37
+    NEW_LINE (296) 8 16 19 22
+    COMMA (297)
+    SEMI_COLON (298)
+    COLON (299) 16 20 22
+    SPACE (300)
+
+
+Nonterminals, with rules where they appear
+
+    $accept (50)
+        on left: 0
+    program (51)
+        on left: 1
+        on right: 0
+    declaration (52)
+        on left: 2
+        on right: 12
+    type (53)
+        on left: 3 4 5
+        on right: 2 38
+    cmpdstmt (54)
+        on left: 6 7
+        on right: 1 7 16 18 20 22
+    stmt (55)
+        on left: 8 9
+        on right: 6 7
+    simplstmt (56)
+        on left: 10 11 12
+        on right: 8
+    structstmt (57)
+        on left: 13 14 15
+        on right: 9
+    ifstmt (58)
+        on left: 16
+        on right: 13
+    tempIf (59)
+        on left: 17 18 19
+        on right: 16
+    forstmt (60)
+        on left: 20
+        on right: 15
+    forheader (61)
+        on left: 21
+        on right: 20
+    whilestmt (62)
+        on left: 22
+        on right: 14
+    assignstmt (63)
+        on left: 23 24
+        on right: 10
+    expression (64)
+        on left: 25
+        on right: 23 33 41 42 43 44 45 46
+    arithmetic1 (65)
+        on left: 26 27 28
+        on right: 25 26 27
+    arithmetic2 (66)
+        on left: 29
+        on right: 25 26 27
+    multiply1 (67)
+        on left: 30 31 32
+        on right: 29 30 31
+    multiply2 (68)
+        on left: 33 34 35 36
+        on right: 29 30 31
+    IndexedIdentifier (69)
+        on left: 37
+        on right: 36
+    iostmt (70)
+        on left: 38 39 40
+        on right: 11 24
+    condition (71)
+        on left: 41 42 43 44 45 46
+        on right: 47
+    boolean_condition (72)
+        on left: 47
+        on right: 16 22 49 50
+    boolean_cond_temp (73)
+        on left: 48 49 50
+        on right: 47
+
+
+State 0
+
+    0 $accept: • program $end
+    1 program: • START_ID cmpdstmt END_ID
+
+    START_ID  shift, and go to state 1
+
+    program  go to state 2
+
+
+State 1
+
+    1 program: START_ID • cmpdstmt END_ID
+    2 declaration: • type ID
+    3 type: • INTEGER
+    4     | • STRING
+    5     | • ARRAY
+    6 cmpdstmt: • stmt
+    7         | • stmt cmpdstmt
+    8 stmt: • simplstmt NEW_LINE
+    9     | • structstmt
+   10 simplstmt: • assignstmt
+   11          | • iostmt
+   12          | • declaration
+   13 structstmt: • ifstmt
+   14           | • whilestmt
+   15           | • forstmt
+   16 ifstmt: • IN_CASE boolean_condition COLON OPEN_CURLY_BRACKET NEW_LINE cmpdstmt CLOSED_CURLY_BRACKET tempIf
+   20 forstmt: • FOR forheader COLON OPEN_CURLY_BRACKET cmpdstmt CLOSED_CURLY_BRACKET
+   22 whilestmt: • WHILE boolean_condition COLON OPEN_CURLY_BRACKET NEW_LINE cmpdstmt CLOSED_CURLY_BRACKET
+   23 assignstmt: • ID ATRIB expression
+   24           | • ID ATRIB iostmt
+   38 iostmt: • READ_VAL OPEN_ROUND_BRACKET type CLOSED_ROUND_BRACKET
+   39       | • SHOW OPEN_ROUND_BRACKET ID CLOSED_ROUND_BRACKET
+   40       | • SHOW OPEN_ROUND_BRACKET CONST CLOSED_ROUND_BRACKET
+
+    ARRAY     shift, and go to state 3
+    FOR       shift, and go to state 4
+    INTEGER   shift, and go to state 5
+    IN_CASE   shift, and go to state 6
+    READ_VAL  shift, and go to state 7
+    STRING    shift, and go to state 8
+    WHILE     shift, and go to state 9
+    SHOW      shift, and go to state 10
+    ID        shift, and go to state 11
+
+    declaration  go to state 12
+    type         go to state 13
+    cmpdstmt     go to state 14
+    stmt         go to state 15
+    simplstmt    go to state 16
+    structstmt   go to state 17
+    ifstmt       go to state 18
+    forstmt      go to state 19
+    whilestmt    go to state 20
+    assignstmt   go to state 21
+    iostmt       go to state 22
+
+
+State 2
+
+    0 $accept: program • $end
+
+    $end  shift, and go to state 23
+
+
+State 3
+
+    5 type: ARRAY •
+
+    $default  reduce using rule 5 (type)
+
+
+State 4
+
+   20 forstmt: FOR • forheader COLON OPEN_CURLY_BRACKET cmpdstmt CLOSED_CURLY_BRACKET
+   21 forheader: • ID FOR_FROM ID
+
+    ID  shift, and go to state 24
+
+    forheader  go to state 25
+
+
+State 5
+
+    3 type: INTEGER •
+
+    $default  reduce using rule 3 (type)
+
+
+State 6
+
+   16 ifstmt: IN_CASE • boolean_condition COLON OPEN_CURLY_BRACKET NEW_LINE cmpdstmt CLOSED_CURLY_BRACKET tempIf
+   25 expression: • arithmetic2 arithmetic1
+   29 arithmetic2: • multiply2 multiply1
+   33 multiply2: • OPEN_ROUND_BRACKET expression CLOSED_ROUND_BRACKET
+   34          | • CONST
+   35          | • ID
+   36          | • IndexedIdentifier
+   37 IndexedIdentifier: • ID OPEN_RIGHT_BRACKET CONST CLOSED_RIGHT_BRACKET
+   41 condition: • expression GT expression
+   42          | • expression GE expression
+   43          | • expression LT expression
+   44          | • expression LE expression
+   45          | • expression EQ expression
+   46          | • expression NE expression
+   47 boolean_condition: • condition boolean_cond_temp
+
+    ID                  shift, and go to state 26
+    CONST               shift, and go to state 27
+    OPEN_ROUND_BRACKET  shift, and go to state 28
+
+    expression         go to state 29
+    arithmetic2        go to state 30
+    multiply2          go to state 31
+    IndexedIdentifier  go to state 32
+    condition          go to state 33
+    boolean_condition  go to state 34
+
+
+State 7
+
+   38 iostmt: READ_VAL • OPEN_ROUND_BRACKET type CLOSED_ROUND_BRACKET
+
+    OPEN_ROUND_BRACKET  shift, and go to state 35
+
+
+State 8
+
+    4 type: STRING •
+
+    $default  reduce using rule 4 (type)
+
+
+State 9
+
+   22 whilestmt: WHILE • boolean_condition COLON OPEN_CURLY_BRACKET NEW_LINE cmpdstmt CLOSED_CURLY_BRACKET
+   25 expression: • arithmetic2 arithmetic1
+   29 arithmetic2: • multiply2 multiply1
+   33 multiply2: • OPEN_ROUND_BRACKET expression CLOSED_ROUND_BRACKET
+   34          | • CONST
+   35          | • ID
+   36          | • IndexedIdentifier
+   37 IndexedIdentifier: • ID OPEN_RIGHT_BRACKET CONST CLOSED_RIGHT_BRACKET
+   41 condition: • expression GT expression
+   42          | • expression GE expression
+   43          | • expression LT expression
+   44          | • expression LE expression
+   45          | • expression EQ expression
+   46          | • expression NE expression
+   47 boolean_condition: • condition boolean_cond_temp
+
+    ID                  shift, and go to state 26
+    CONST               shift, and go to state 27
+    OPEN_ROUND_BRACKET  shift, and go to state 28
+
+    expression         go to state 29
+    arithmetic2        go to state 30
+    multiply2          go to state 31
+    IndexedIdentifier  go to state 32
+    condition          go to state 33
+    boolean_condition  go to state 36
+
+
+State 10
+
+   39 iostmt: SHOW • OPEN_ROUND_BRACKET ID CLOSED_ROUND_BRACKET
+   40       | SHOW • OPEN_ROUND_BRACKET CONST CLOSED_ROUND_BRACKET
+
+    OPEN_ROUND_BRACKET  shift, and go to state 37
+
+
+State 11
+
+   23 assignstmt: ID • ATRIB expression
+   24           | ID • ATRIB iostmt
+
+    ATRIB  shift, and go to state 38
+
+
+State 12
+
+   12 simplstmt: declaration •
+
+    $default  reduce using rule 12 (simplstmt)
+
+
+State 13
+
+    2 declaration: type • ID
+
+    ID  shift, and go to state 39
+
+
+State 14
+
+    1 program: START_ID cmpdstmt • END_ID
+
+    END_ID  shift, and go to state 40
+
+
+State 15
+
+    2 declaration: • type ID
+    3 type: • INTEGER
+    4     | • STRING
+    5     | • ARRAY
+    6 cmpdstmt: • stmt
+    6         | stmt •  [END_ID, CLOSED_CURLY_BRACKET]
+    7         | • stmt cmpdstmt
+    7         | stmt • cmpdstmt
+    8 stmt: • simplstmt NEW_LINE
+    9     | • structstmt
+   10 simplstmt: • assignstmt
+   11          | • iostmt
+   12          | • declaration
+   13 structstmt: • ifstmt
+   14           | • whilestmt
+   15           | • forstmt
+   16 ifstmt: • IN_CASE boolean_condition COLON OPEN_CURLY_BRACKET NEW_LINE cmpdstmt CLOSED_CURLY_BRACKET tempIf
+   20 forstmt: • FOR forheader COLON OPEN_CURLY_BRACKET cmpdstmt CLOSED_CURLY_BRACKET
+   22 whilestmt: • WHILE boolean_condition COLON OPEN_CURLY_BRACKET NEW_LINE cmpdstmt CLOSED_CURLY_BRACKET
+   23 assignstmt: • ID ATRIB expression
+   24           | • ID ATRIB iostmt
+   38 iostmt: • READ_VAL OPEN_ROUND_BRACKET type CLOSED_ROUND_BRACKET
+   39       | • SHOW OPEN_ROUND_BRACKET ID CLOSED_ROUND_BRACKET
+   40       | • SHOW OPEN_ROUND_BRACKET CONST CLOSED_ROUND_BRACKET
+
+    ARRAY     shift, and go to state 3
+    FOR       shift, and go to state 4
+    INTEGER   shift, and go to state 5
+    IN_CASE   shift, and go to state 6
+    READ_VAL  shift, and go to state 7
+    STRING    shift, and go to state 8
+    WHILE     shift, and go to state 9
+    SHOW      shift, and go to state 10
+    ID        shift, and go to state 11
+
+    $default  reduce using rule 6 (cmpdstmt)
+
+    declaration  go to state 12
+    type         go to state 13
+    cmpdstmt     go to state 41
+    stmt         go to state 15
+    simplstmt    go to state 16
+    structstmt   go to state 17
+    ifstmt       go to state 18
+    forstmt      go to state 19
+    whilestmt    go to state 20
+    assignstmt   go to state 21
+    iostmt       go to state 22
+
+
+State 16
+
+    8 stmt: simplstmt • NEW_LINE
+
+    NEW_LINE  shift, and go to state 42
+
+
+State 17
+
+    9 stmt: structstmt •
+
+    $default  reduce using rule 9 (stmt)
+
+
+State 18
+
+   13 structstmt: ifstmt •
+
+    $default  reduce using rule 13 (structstmt)
+
+
+State 19
+
+   15 structstmt: forstmt •
+
+    $default  reduce using rule 15 (structstmt)
+
+
+State 20
+
+   14 structstmt: whilestmt •
+
+    $default  reduce using rule 14 (structstmt)
+
+
+State 21
+
+   10 simplstmt: assignstmt •
+
+    $default  reduce using rule 10 (simplstmt)
+
+
+State 22
+
+   11 simplstmt: iostmt •
+
+    $default  reduce using rule 11 (simplstmt)
+
+
+State 23
+
+    0 $accept: program $end •
+
+    $default  accept
+
+
+State 24
+
+   21 forheader: ID • FOR_FROM ID
+
+    FOR_FROM  shift, and go to state 43
+
+
+State 25
+
+   20 forstmt: FOR forheader • COLON OPEN_CURLY_BRACKET cmpdstmt CLOSED_CURLY_BRACKET
+
+    COLON  shift, and go to state 44
+
+
+State 26
+
+   35 multiply2: ID •  [AND, OR, EQ, NE, LE, GE, LT, GT, PLUS, MINUS, DIV, MUL, CLOSED_ROUND_BRACKET, NEW_LINE, COLON]
+   37 IndexedIdentifier: ID • OPEN_RIGHT_BRACKET CONST CLOSED_RIGHT_BRACKET
+
+    OPEN_RIGHT_BRACKET  shift, and go to state 45
+
+    $default  reduce using rule 35 (multiply2)
+
+
+State 27
+
+   34 multiply2: CONST •
+
+    $default  reduce using rule 34 (multiply2)
+
+
+State 28
+
+   25 expression: • arithmetic2 arithmetic1
+   29 arithmetic2: • multiply2 multiply1
+   33 multiply2: • OPEN_ROUND_BRACKET expression CLOSED_ROUND_BRACKET
+   33          | OPEN_ROUND_BRACKET • expression CLOSED_ROUND_BRACKET
+   34          | • CONST
+   35          | • ID
+   36          | • IndexedIdentifier
+   37 IndexedIdentifier: • ID OPEN_RIGHT_BRACKET CONST CLOSED_RIGHT_BRACKET
+
+    ID                  shift, and go to state 26
+    CONST               shift, and go to state 27
+    OPEN_ROUND_BRACKET  shift, and go to state 28
+
+    expression         go to state 46
+    arithmetic2        go to state 30
+    multiply2          go to state 31
+    IndexedIdentifier  go to state 32
+
+
+State 29
+
+   41 condition: expression • GT expression
+   42          | expression • GE expression
+   43          | expression • LT expression
+   44          | expression • LE expression
+   45          | expression • EQ expression
+   46          | expression • NE expression
+
+    EQ  shift, and go to state 47
+    NE  shift, and go to state 48
+    LE  shift, and go to state 49
+    GE  shift, and go to state 50
+    LT  shift, and go to state 51
+    GT  shift, and go to state 52
+
+
+State 30
+
+   25 expression: arithmetic2 • arithmetic1
+   26 arithmetic1: • PLUS arithmetic2 arithmetic1
+   27            | • MINUS arithmetic2 arithmetic1
+   28            | ε •  [AND, OR, EQ, NE, LE, GE, LT, GT, CLOSED_ROUND_BRACKET, NEW_LINE, COLON]
+
+    PLUS   shift, and go to state 53
+    MINUS  shift, and go to state 54
+
+    $default  reduce using rule 28 (arithmetic1)
+
+    arithmetic1  go to state 55
+
+
+State 31
+
+   29 arithmetic2: multiply2 • multiply1
+   30 multiply1: • MUL multiply2 multiply1
+   31          | • DIV multiply2 multiply1
+   32          | ε •  [AND, OR, EQ, NE, LE, GE, LT, GT, PLUS, MINUS, CLOSED_ROUND_BRACKET, NEW_LINE, COLON]
+
+    DIV  shift, and go to state 56
+    MUL  shift, and go to state 57
+
+    $default  reduce using rule 32 (multiply1)
+
+    multiply1  go to state 58
+
+
+State 32
+
+   36 multiply2: IndexedIdentifier •
+
+    $default  reduce using rule 36 (multiply2)
+
+
+State 33
+
+   47 boolean_condition: condition • boolean_cond_temp
+   48 boolean_cond_temp: ε •  [COLON]
+   49                  | • AND boolean_condition
+   50                  | • OR boolean_condition
+
+    AND  shift, and go to state 59
+    OR   shift, and go to state 60
+
+    $default  reduce using rule 48 (boolean_cond_temp)
+
+    boolean_cond_temp  go to state 61
+
+
+State 34
+
+   16 ifstmt: IN_CASE boolean_condition • COLON OPEN_CURLY_BRACKET NEW_LINE cmpdstmt CLOSED_CURLY_BRACKET tempIf
+
+    COLON  shift, and go to state 62
+
+
+State 35
+
+    3 type: • INTEGER
+    4     | • STRING
+    5     | • ARRAY
+   38 iostmt: READ_VAL OPEN_ROUND_BRACKET • type CLOSED_ROUND_BRACKET
+
+    ARRAY    shift, and go to state 3
+    INTEGER  shift, and go to state 5
+    STRING   shift, and go to state 8
+
+    type  go to state 63
+
+
+State 36
+
+   22 whilestmt: WHILE boolean_condition • COLON OPEN_CURLY_BRACKET NEW_LINE cmpdstmt CLOSED_CURLY_BRACKET
+
+    COLON  shift, and go to state 64
+
+
+State 37
+
+   39 iostmt: SHOW OPEN_ROUND_BRACKET • ID CLOSED_ROUND_BRACKET
+   40       | SHOW OPEN_ROUND_BRACKET • CONST CLOSED_ROUND_BRACKET
+
+    ID     shift, and go to state 65
+    CONST  shift, and go to state 66
+
+
+State 38
+
+   23 assignstmt: ID ATRIB • expression
+   24           | ID ATRIB • iostmt
+   25 expression: • arithmetic2 arithmetic1
+   29 arithmetic2: • multiply2 multiply1
+   33 multiply2: • OPEN_ROUND_BRACKET expression CLOSED_ROUND_BRACKET
+   34          | • CONST
+   35          | • ID
+   36          | • IndexedIdentifier
+   37 IndexedIdentifier: • ID OPEN_RIGHT_BRACKET CONST CLOSED_RIGHT_BRACKET
+   38 iostmt: • READ_VAL OPEN_ROUND_BRACKET type CLOSED_ROUND_BRACKET
+   39       | • SHOW OPEN_ROUND_BRACKET ID CLOSED_ROUND_BRACKET
+   40       | • SHOW OPEN_ROUND_BRACKET CONST CLOSED_ROUND_BRACKET
+
+    READ_VAL            shift, and go to state 7
+    SHOW                shift, and go to state 10
+    ID                  shift, and go to state 26
+    CONST               shift, and go to state 27
+    OPEN_ROUND_BRACKET  shift, and go to state 28
+
+    expression         go to state 67
+    arithmetic2        go to state 30
+    multiply2          go to state 31
+    IndexedIdentifier  go to state 32
+    iostmt             go to state 68
+
+
+State 39
+
+    2 declaration: type ID •
+
+    $default  reduce using rule 2 (declaration)
+
+
+State 40
+
+    1 program: START_ID cmpdstmt END_ID •
+
+    $default  reduce using rule 1 (program)
+
+
+State 41
+
+    7 cmpdstmt: stmt cmpdstmt •
+
+    $default  reduce using rule 7 (cmpdstmt)
+
+
+State 42
+
+    8 stmt: simplstmt NEW_LINE •
+
+    $default  reduce using rule 8 (stmt)
+
+
+State 43
+
+   21 forheader: ID FOR_FROM • ID
+
+    ID  shift, and go to state 69
+
+
+State 44
+
+   20 forstmt: FOR forheader COLON • OPEN_CURLY_BRACKET cmpdstmt CLOSED_CURLY_BRACKET
+
+    OPEN_CURLY_BRACKET  shift, and go to state 70
+
+
+State 45
+
+   37 IndexedIdentifier: ID OPEN_RIGHT_BRACKET • CONST CLOSED_RIGHT_BRACKET
+
+    CONST  shift, and go to state 71
+
+
+State 46
+
+   33 multiply2: OPEN_ROUND_BRACKET expression • CLOSED_ROUND_BRACKET
+
+    CLOSED_ROUND_BRACKET  shift, and go to state 72
+
+
+State 47
+
+   25 expression: • arithmetic2 arithmetic1
+   29 arithmetic2: • multiply2 multiply1
+   33 multiply2: • OPEN_ROUND_BRACKET expression CLOSED_ROUND_BRACKET
+   34          | • CONST
+   35          | • ID
+   36          | • IndexedIdentifier
+   37 IndexedIdentifier: • ID OPEN_RIGHT_BRACKET CONST CLOSED_RIGHT_BRACKET
+   45 condition: expression EQ • expression
+
+    ID                  shift, and go to state 26
+    CONST               shift, and go to state 27
+    OPEN_ROUND_BRACKET  shift, and go to state 28
+
+    expression         go to state 73
+    arithmetic2        go to state 30
+    multiply2          go to state 31
+    IndexedIdentifier  go to state 32
+
+
+State 48
+
+   25 expression: • arithmetic2 arithmetic1
+   29 arithmetic2: • multiply2 multiply1
+   33 multiply2: • OPEN_ROUND_BRACKET expression CLOSED_ROUND_BRACKET
+   34          | • CONST
+   35          | • ID
+   36          | • IndexedIdentifier
+   37 IndexedIdentifier: • ID OPEN_RIGHT_BRACKET CONST CLOSED_RIGHT_BRACKET
+   46 condition: expression NE • expression
+
+    ID                  shift, and go to state 26
+    CONST               shift, and go to state 27
+    OPEN_ROUND_BRACKET  shift, and go to state 28
+
+    expression         go to state 74
+    arithmetic2        go to state 30
+    multiply2          go to state 31
+    IndexedIdentifier  go to state 32
+
+
+State 49
+
+   25 expression: • arithmetic2 arithmetic1
+   29 arithmetic2: • multiply2 multiply1
+   33 multiply2: • OPEN_ROUND_BRACKET expression CLOSED_ROUND_BRACKET
+   34          | • CONST
+   35          | • ID
+   36          | • IndexedIdentifier
+   37 IndexedIdentifier: • ID OPEN_RIGHT_BRACKET CONST CLOSED_RIGHT_BRACKET
+   44 condition: expression LE • expression
+
+    ID                  shift, and go to state 26
+    CONST               shift, and go to state 27
+    OPEN_ROUND_BRACKET  shift, and go to state 28
+
+    expression         go to state 75
+    arithmetic2        go to state 30
+    multiply2          go to state 31
+    IndexedIdentifier  go to state 32
+
+
+State 50
+
+   25 expression: • arithmetic2 arithmetic1
+   29 arithmetic2: • multiply2 multiply1
+   33 multiply2: • OPEN_ROUND_BRACKET expression CLOSED_ROUND_BRACKET
+   34          | • CONST
+   35          | • ID
+   36          | • IndexedIdentifier
+   37 IndexedIdentifier: • ID OPEN_RIGHT_BRACKET CONST CLOSED_RIGHT_BRACKET
+   42 condition: expression GE • expression
+
+    ID                  shift, and go to state 26
+    CONST               shift, and go to state 27
+    OPEN_ROUND_BRACKET  shift, and go to state 28
+
+    expression         go to state 76
+    arithmetic2        go to state 30
+    multiply2          go to state 31
+    IndexedIdentifier  go to state 32
+
+
+State 51
+
+   25 expression: • arithmetic2 arithmetic1
+   29 arithmetic2: • multiply2 multiply1
+   33 multiply2: • OPEN_ROUND_BRACKET expression CLOSED_ROUND_BRACKET
+   34          | • CONST
+   35          | • ID
+   36          | • IndexedIdentifier
+   37 IndexedIdentifier: • ID OPEN_RIGHT_BRACKET CONST CLOSED_RIGHT_BRACKET
+   43 condition: expression LT • expression
+
+    ID                  shift, and go to state 26
+    CONST               shift, and go to state 27
+    OPEN_ROUND_BRACKET  shift, and go to state 28
+
+    expression         go to state 77
+    arithmetic2        go to state 30
+    multiply2          go to state 31
+    IndexedIdentifier  go to state 32
+
+
+State 52
+
+   25 expression: • arithmetic2 arithmetic1
+   29 arithmetic2: • multiply2 multiply1
+   33 multiply2: • OPEN_ROUND_BRACKET expression CLOSED_ROUND_BRACKET
+   34          | • CONST
+   35          | • ID
+   36          | • IndexedIdentifier
+   37 IndexedIdentifier: • ID OPEN_RIGHT_BRACKET CONST CLOSED_RIGHT_BRACKET
+   41 condition: expression GT • expression
+
+    ID                  shift, and go to state 26
+    CONST               shift, and go to state 27
+    OPEN_ROUND_BRACKET  shift, and go to state 28
+
+    expression         go to state 78
+    arithmetic2        go to state 30
+    multiply2          go to state 31
+    IndexedIdentifier  go to state 32
+
+
+State 53
+
+   26 arithmetic1: PLUS • arithmetic2 arithmetic1
+   29 arithmetic2: • multiply2 multiply1
+   33 multiply2: • OPEN_ROUND_BRACKET expression CLOSED_ROUND_BRACKET
+   34          | • CONST
+   35          | • ID
+   36          | • IndexedIdentifier
+   37 IndexedIdentifier: • ID OPEN_RIGHT_BRACKET CONST CLOSED_RIGHT_BRACKET
+
+    ID                  shift, and go to state 26
+    CONST               shift, and go to state 27
+    OPEN_ROUND_BRACKET  shift, and go to state 28
+
+    arithmetic2        go to state 79
+    multiply2          go to state 31
+    IndexedIdentifier  go to state 32
+
+
+State 54
+
+   27 arithmetic1: MINUS • arithmetic2 arithmetic1
+   29 arithmetic2: • multiply2 multiply1
+   33 multiply2: • OPEN_ROUND_BRACKET expression CLOSED_ROUND_BRACKET
+   34          | • CONST
+   35          | • ID
+   36          | • IndexedIdentifier
+   37 IndexedIdentifier: • ID OPEN_RIGHT_BRACKET CONST CLOSED_RIGHT_BRACKET
+
+    ID                  shift, and go to state 26
+    CONST               shift, and go to state 27
+    OPEN_ROUND_BRACKET  shift, and go to state 28
+
+    arithmetic2        go to state 80
+    multiply2          go to state 31
+    IndexedIdentifier  go to state 32
+
+
+State 55
+
+   25 expression: arithmetic2 arithmetic1 •
+
+    $default  reduce using rule 25 (expression)
+
+
+State 56
+
+   31 multiply1: DIV • multiply2 multiply1
+   33 multiply2: • OPEN_ROUND_BRACKET expression CLOSED_ROUND_BRACKET
+   34          | • CONST
+   35          | • ID
+   36          | • IndexedIdentifier
+   37 IndexedIdentifier: • ID OPEN_RIGHT_BRACKET CONST CLOSED_RIGHT_BRACKET
+
+    ID                  shift, and go to state 26
+    CONST               shift, and go to state 27
+    OPEN_ROUND_BRACKET  shift, and go to state 28
+
+    multiply2          go to state 81
+    IndexedIdentifier  go to state 32
+
+
+State 57
+
+   30 multiply1: MUL • multiply2 multiply1
+   33 multiply2: • OPEN_ROUND_BRACKET expression CLOSED_ROUND_BRACKET
+   34          | • CONST
+   35          | • ID
+   36          | • IndexedIdentifier
+   37 IndexedIdentifier: • ID OPEN_RIGHT_BRACKET CONST CLOSED_RIGHT_BRACKET
+
+    ID                  shift, and go to state 26
+    CONST               shift, and go to state 27
+    OPEN_ROUND_BRACKET  shift, and go to state 28
+
+    multiply2          go to state 82
+    IndexedIdentifier  go to state 32
+
+
+State 58
+
+   29 arithmetic2: multiply2 multiply1 •
+
+    $default  reduce using rule 29 (arithmetic2)
+
+
+State 59
+
+   25 expression: • arithmetic2 arithmetic1
+   29 arithmetic2: • multiply2 multiply1
+   33 multiply2: • OPEN_ROUND_BRACKET expression CLOSED_ROUND_BRACKET
+   34          | • CONST
+   35          | • ID
+   36          | • IndexedIdentifier
+   37 IndexedIdentifier: • ID OPEN_RIGHT_BRACKET CONST CLOSED_RIGHT_BRACKET
+   41 condition: • expression GT expression
+   42          | • expression GE expression
+   43          | • expression LT expression
+   44          | • expression LE expression
+   45          | • expression EQ expression
+   46          | • expression NE expression
+   47 boolean_condition: • condition boolean_cond_temp
+   49 boolean_cond_temp: AND • boolean_condition
+
+    ID                  shift, and go to state 26
+    CONST               shift, and go to state 27
+    OPEN_ROUND_BRACKET  shift, and go to state 28
+
+    expression         go to state 29
+    arithmetic2        go to state 30
+    multiply2          go to state 31
+    IndexedIdentifier  go to state 32
+    condition          go to state 33
+    boolean_condition  go to state 83
+
+
+State 60
+
+   25 expression: • arithmetic2 arithmetic1
+   29 arithmetic2: • multiply2 multiply1
+   33 multiply2: • OPEN_ROUND_BRACKET expression CLOSED_ROUND_BRACKET
+   34          | • CONST
+   35          | • ID
+   36          | • IndexedIdentifier
+   37 IndexedIdentifier: • ID OPEN_RIGHT_BRACKET CONST CLOSED_RIGHT_BRACKET
+   41 condition: • expression GT expression
+   42          | • expression GE expression
+   43          | • expression LT expression
+   44          | • expression LE expression
+   45          | • expression EQ expression
+   46          | • expression NE expression
+   47 boolean_condition: • condition boolean_cond_temp
+   50 boolean_cond_temp: OR • boolean_condition
+
+    ID                  shift, and go to state 26
+    CONST               shift, and go to state 27
+    OPEN_ROUND_BRACKET  shift, and go to state 28
+
+    expression         go to state 29
+    arithmetic2        go to state 30
+    multiply2          go to state 31
+    IndexedIdentifier  go to state 32
+    condition          go to state 33
+    boolean_condition  go to state 84
+
+
+State 61
+
+   47 boolean_condition: condition boolean_cond_temp •
+
+    $default  reduce using rule 47 (boolean_condition)
+
+
+State 62
+
+   16 ifstmt: IN_CASE boolean_condition COLON • OPEN_CURLY_BRACKET NEW_LINE cmpdstmt CLOSED_CURLY_BRACKET tempIf
+
+    OPEN_CURLY_BRACKET  shift, and go to state 85
+
+
+State 63
+
+   38 iostmt: READ_VAL OPEN_ROUND_BRACKET type • CLOSED_ROUND_BRACKET
+
+    CLOSED_ROUND_BRACKET  shift, and go to state 86
+
+
+State 64
+
+   22 whilestmt: WHILE boolean_condition COLON • OPEN_CURLY_BRACKET NEW_LINE cmpdstmt CLOSED_CURLY_BRACKET
+
+    OPEN_CURLY_BRACKET  shift, and go to state 87
+
+
+State 65
+
+   39 iostmt: SHOW OPEN_ROUND_BRACKET ID • CLOSED_ROUND_BRACKET
+
+    CLOSED_ROUND_BRACKET  shift, and go to state 88
+
+
+State 66
+
+   40 iostmt: SHOW OPEN_ROUND_BRACKET CONST • CLOSED_ROUND_BRACKET
+
+    CLOSED_ROUND_BRACKET  shift, and go to state 89
+
+
+State 67
+
+   23 assignstmt: ID ATRIB expression •
+
+    $default  reduce using rule 23 (assignstmt)
+
+
+State 68
+
+   24 assignstmt: ID ATRIB iostmt •
+
+    $default  reduce using rule 24 (assignstmt)
+
+
+State 69
+
+   21 forheader: ID FOR_FROM ID •
+
+    $default  reduce using rule 21 (forheader)
+
+
+State 70
+
+    2 declaration: • type ID
+    3 type: • INTEGER
+    4     | • STRING
+    5     | • ARRAY
+    6 cmpdstmt: • stmt
+    7         | • stmt cmpdstmt
+    8 stmt: • simplstmt NEW_LINE
+    9     | • structstmt
+   10 simplstmt: • assignstmt
+   11          | • iostmt
+   12          | • declaration
+   13 structstmt: • ifstmt
+   14           | • whilestmt
+   15           | • forstmt
+   16 ifstmt: • IN_CASE boolean_condition COLON OPEN_CURLY_BRACKET NEW_LINE cmpdstmt CLOSED_CURLY_BRACKET tempIf
+   20 forstmt: • FOR forheader COLON OPEN_CURLY_BRACKET cmpdstmt CLOSED_CURLY_BRACKET
+   20        | FOR forheader COLON OPEN_CURLY_BRACKET • cmpdstmt CLOSED_CURLY_BRACKET
+   22 whilestmt: • WHILE boolean_condition COLON OPEN_CURLY_BRACKET NEW_LINE cmpdstmt CLOSED_CURLY_BRACKET
+   23 assignstmt: • ID ATRIB expression
+   24           | • ID ATRIB iostmt
+   38 iostmt: • READ_VAL OPEN_ROUND_BRACKET type CLOSED_ROUND_BRACKET
+   39       | • SHOW OPEN_ROUND_BRACKET ID CLOSED_ROUND_BRACKET
+   40       | • SHOW OPEN_ROUND_BRACKET CONST CLOSED_ROUND_BRACKET
+
+    ARRAY     shift, and go to state 3
+    FOR       shift, and go to state 4
+    INTEGER   shift, and go to state 5
+    IN_CASE   shift, and go to state 6
+    READ_VAL  shift, and go to state 7
+    STRING    shift, and go to state 8
+    WHILE     shift, and go to state 9
+    SHOW      shift, and go to state 10
+    ID        shift, and go to state 11
+
+    declaration  go to state 12
+    type         go to state 13
+    cmpdstmt     go to state 90
+    stmt         go to state 15
+    simplstmt    go to state 16
+    structstmt   go to state 17
+    ifstmt       go to state 18
+    forstmt      go to state 19
+    whilestmt    go to state 20
+    assignstmt   go to state 21
+    iostmt       go to state 22
+
+
+State 71
+
+   37 IndexedIdentifier: ID OPEN_RIGHT_BRACKET CONST • CLOSED_RIGHT_BRACKET
+
+    CLOSED_RIGHT_BRACKET  shift, and go to state 91
+
+
+State 72
+
+   33 multiply2: OPEN_ROUND_BRACKET expression CLOSED_ROUND_BRACKET •
+
+    $default  reduce using rule 33 (multiply2)
+
+
+State 73
+
+   45 condition: expression EQ expression •
+
+    $default  reduce using rule 45 (condition)
+
+
+State 74
+
+   46 condition: expression NE expression •
+
+    $default  reduce using rule 46 (condition)
+
+
+State 75
+
+   44 condition: expression LE expression •
+
+    $default  reduce using rule 44 (condition)
+
+
+State 76
+
+   42 condition: expression GE expression •
+
+    $default  reduce using rule 42 (condition)
+
+
+State 77
+
+   43 condition: expression LT expression •
+
+    $default  reduce using rule 43 (condition)
+
+
+State 78
+
+   41 condition: expression GT expression •
+
+    $default  reduce using rule 41 (condition)
+
+
+State 79
+
+   26 arithmetic1: • PLUS arithmetic2 arithmetic1
+   26            | PLUS arithmetic2 • arithmetic1
+   27            | • MINUS arithmetic2 arithmetic1
+   28            | ε •  [AND, OR, EQ, NE, LE, GE, LT, GT, CLOSED_ROUND_BRACKET, NEW_LINE, COLON]
+
+    PLUS   shift, and go to state 53
+    MINUS  shift, and go to state 54
+
+    $default  reduce using rule 28 (arithmetic1)
+
+    arithmetic1  go to state 92
+
+
+State 80
+
+   26 arithmetic1: • PLUS arithmetic2 arithmetic1
+   27            | • MINUS arithmetic2 arithmetic1
+   27            | MINUS arithmetic2 • arithmetic1
+   28            | ε •  [AND, OR, EQ, NE, LE, GE, LT, GT, CLOSED_ROUND_BRACKET, NEW_LINE, COLON]
+
+    PLUS   shift, and go to state 53
+    MINUS  shift, and go to state 54
+
+    $default  reduce using rule 28 (arithmetic1)
+
+    arithmetic1  go to state 93
+
+
+State 81
+
+   30 multiply1: • MUL multiply2 multiply1
+   31          | • DIV multiply2 multiply1
+   31          | DIV multiply2 • multiply1
+   32          | ε •  [AND, OR, EQ, NE, LE, GE, LT, GT, PLUS, MINUS, CLOSED_ROUND_BRACKET, NEW_LINE, COLON]
+
+    DIV  shift, and go to state 56
+    MUL  shift, and go to state 57
+
+    $default  reduce using rule 32 (multiply1)
+
+    multiply1  go to state 94
+
+
+State 82
+
+   30 multiply1: • MUL multiply2 multiply1
+   30          | MUL multiply2 • multiply1
+   31          | • DIV multiply2 multiply1
+   32          | ε •  [AND, OR, EQ, NE, LE, GE, LT, GT, PLUS, MINUS, CLOSED_ROUND_BRACKET, NEW_LINE, COLON]
+
+    DIV  shift, and go to state 56
+    MUL  shift, and go to state 57
+
+    $default  reduce using rule 32 (multiply1)
+
+    multiply1  go to state 95
+
+
+State 83
+
+   49 boolean_cond_temp: AND boolean_condition •
+
+    $default  reduce using rule 49 (boolean_cond_temp)
+
+
+State 84
+
+   50 boolean_cond_temp: OR boolean_condition •
+
+    $default  reduce using rule 50 (boolean_cond_temp)
+
+
+State 85
+
+   16 ifstmt: IN_CASE boolean_condition COLON OPEN_CURLY_BRACKET • NEW_LINE cmpdstmt CLOSED_CURLY_BRACKET tempIf
+
+    NEW_LINE  shift, and go to state 96
+
+
+State 86
+
+   38 iostmt: READ_VAL OPEN_ROUND_BRACKET type CLOSED_ROUND_BRACKET •
+
+    $default  reduce using rule 38 (iostmt)
+
+
+State 87
+
+   22 whilestmt: WHILE boolean_condition COLON OPEN_CURLY_BRACKET • NEW_LINE cmpdstmt CLOSED_CURLY_BRACKET
+
+    NEW_LINE  shift, and go to state 97
+
+
+State 88
+
+   39 iostmt: SHOW OPEN_ROUND_BRACKET ID CLOSED_ROUND_BRACKET •
+
+    $default  reduce using rule 39 (iostmt)
+
+
+State 89
+
+   40 iostmt: SHOW OPEN_ROUND_BRACKET CONST CLOSED_ROUND_BRACKET •
+
+    $default  reduce using rule 40 (iostmt)
+
+
+State 90
+
+   20 forstmt: FOR forheader COLON OPEN_CURLY_BRACKET cmpdstmt • CLOSED_CURLY_BRACKET
+
+    CLOSED_CURLY_BRACKET  shift, and go to state 98
+
+
+State 91
+
+   37 IndexedIdentifier: ID OPEN_RIGHT_BRACKET CONST CLOSED_RIGHT_BRACKET •
+
+    $default  reduce using rule 37 (IndexedIdentifier)
+
+
+State 92
+
+   26 arithmetic1: PLUS arithmetic2 arithmetic1 •
+
+    $default  reduce using rule 26 (arithmetic1)
+
+
+State 93
+
+   27 arithmetic1: MINUS arithmetic2 arithmetic1 •
+
+    $default  reduce using rule 27 (arithmetic1)
+
+
+State 94
+
+   31 multiply1: DIV multiply2 multiply1 •
+
+    $default  reduce using rule 31 (multiply1)
+
+
+State 95
+
+   30 multiply1: MUL multiply2 multiply1 •
+
+    $default  reduce using rule 30 (multiply1)
+
+
+State 96
+
+    2 declaration: • type ID
+    3 type: • INTEGER
+    4     | • STRING
+    5     | • ARRAY
+    6 cmpdstmt: • stmt
+    7         | • stmt cmpdstmt
+    8 stmt: • simplstmt NEW_LINE
+    9     | • structstmt
+   10 simplstmt: • assignstmt
+   11          | • iostmt
+   12          | • declaration
+   13 structstmt: • ifstmt
+   14           | • whilestmt
+   15           | • forstmt
+   16 ifstmt: • IN_CASE boolean_condition COLON OPEN_CURLY_BRACKET NEW_LINE cmpdstmt CLOSED_CURLY_BRACKET tempIf
+   16       | IN_CASE boolean_condition COLON OPEN_CURLY_BRACKET NEW_LINE • cmpdstmt CLOSED_CURLY_BRACKET tempIf
+   20 forstmt: • FOR forheader COLON OPEN_CURLY_BRACKET cmpdstmt CLOSED_CURLY_BRACKET
+   22 whilestmt: • WHILE boolean_condition COLON OPEN_CURLY_BRACKET NEW_LINE cmpdstmt CLOSED_CURLY_BRACKET
+   23 assignstmt: • ID ATRIB expression
+   24           | • ID ATRIB iostmt
+   38 iostmt: • READ_VAL OPEN_ROUND_BRACKET type CLOSED_ROUND_BRACKET
+   39       | • SHOW OPEN_ROUND_BRACKET ID CLOSED_ROUND_BRACKET
+   40       | • SHOW OPEN_ROUND_BRACKET CONST CLOSED_ROUND_BRACKET
+
+    ARRAY     shift, and go to state 3
+    FOR       shift, and go to state 4
+    INTEGER   shift, and go to state 5
+    IN_CASE   shift, and go to state 6
+    READ_VAL  shift, and go to state 7
+    STRING    shift, and go to state 8
+    WHILE     shift, and go to state 9
+    SHOW      shift, and go to state 10
+    ID        shift, and go to state 11
+
+    declaration  go to state 12
+    type         go to state 13
+    cmpdstmt     go to state 99
+    stmt         go to state 15
+    simplstmt    go to state 16
+    structstmt   go to state 17
+    ifstmt       go to state 18
+    forstmt      go to state 19
+    whilestmt    go to state 20
+    assignstmt   go to state 21
+    iostmt       go to state 22
+
+
+State 97
+
+    2 declaration: • type ID
+    3 type: • INTEGER
+    4     | • STRING
+    5     | • ARRAY
+    6 cmpdstmt: • stmt
+    7         | • stmt cmpdstmt
+    8 stmt: • simplstmt NEW_LINE
+    9     | • structstmt
+   10 simplstmt: • assignstmt
+   11          | • iostmt
+   12          | • declaration
+   13 structstmt: • ifstmt
+   14           | • whilestmt
+   15           | • forstmt
+   16 ifstmt: • IN_CASE boolean_condition COLON OPEN_CURLY_BRACKET NEW_LINE cmpdstmt CLOSED_CURLY_BRACKET tempIf
+   20 forstmt: • FOR forheader COLON OPEN_CURLY_BRACKET cmpdstmt CLOSED_CURLY_BRACKET
+   22 whilestmt: • WHILE boolean_condition COLON OPEN_CURLY_BRACKET NEW_LINE cmpdstmt CLOSED_CURLY_BRACKET
+   22          | WHILE boolean_condition COLON OPEN_CURLY_BRACKET NEW_LINE • cmpdstmt CLOSED_CURLY_BRACKET
+   23 assignstmt: • ID ATRIB expression
+   24           | • ID ATRIB iostmt
+   38 iostmt: • READ_VAL OPEN_ROUND_BRACKET type CLOSED_ROUND_BRACKET
+   39       | • SHOW OPEN_ROUND_BRACKET ID CLOSED_ROUND_BRACKET
+   40       | • SHOW OPEN_ROUND_BRACKET CONST CLOSED_ROUND_BRACKET
+
+    ARRAY     shift, and go to state 3
+    FOR       shift, and go to state 4
+    INTEGER   shift, and go to state 5
+    IN_CASE   shift, and go to state 6
+    READ_VAL  shift, and go to state 7
+    STRING    shift, and go to state 8
+    WHILE     shift, and go to state 9
+    SHOW      shift, and go to state 10
+    ID        shift, and go to state 11
+
+    declaration  go to state 12
+    type         go to state 13
+    cmpdstmt     go to state 100
+    stmt         go to state 15
+    simplstmt    go to state 16
+    structstmt   go to state 17
+    ifstmt       go to state 18
+    forstmt      go to state 19
+    whilestmt    go to state 20
+    assignstmt   go to state 21
+    iostmt       go to state 22
+
+
+State 98
+
+   20 forstmt: FOR forheader COLON OPEN_CURLY_BRACKET cmpdstmt CLOSED_CURLY_BRACKET •
+
+    $default  reduce using rule 20 (forstmt)
+
+
+State 99
+
+   16 ifstmt: IN_CASE boolean_condition COLON OPEN_CURLY_BRACKET NEW_LINE cmpdstmt • CLOSED_CURLY_BRACKET tempIf
+
+    CLOSED_CURLY_BRACKET  shift, and go to state 101
+
+
+State 100
+
+   22 whilestmt: WHILE boolean_condition COLON OPEN_CURLY_BRACKET NEW_LINE cmpdstmt • CLOSED_CURLY_BRACKET
+
+    CLOSED_CURLY_BRACKET  shift, and go to state 102
+
+
+State 101
+
+   16 ifstmt: IN_CASE boolean_condition COLON OPEN_CURLY_BRACKET NEW_LINE cmpdstmt CLOSED_CURLY_BRACKET • tempIf
+   17 tempIf: ε •  [END_ID, ARRAY, FOR, INTEGER, IN_CASE, READ_VAL, STRING, WHILE, SHOW, ID, CLOSED_CURLY_BRACKET]
+   18       | • ELSE OPEN_CURLY_BRACKET cmpdstmt CLOSED_CURLY_BRACKET
+   19       | • NEW_LINE
+
+    ELSE      shift, and go to state 103
+    NEW_LINE  shift, and go to state 104
+
+    $default  reduce using rule 17 (tempIf)
+
+    tempIf  go to state 105
+
+
+State 102
+
+   22 whilestmt: WHILE boolean_condition COLON OPEN_CURLY_BRACKET NEW_LINE cmpdstmt CLOSED_CURLY_BRACKET •
+
+    $default  reduce using rule 22 (whilestmt)
+
+
+State 103
+
+   18 tempIf: ELSE • OPEN_CURLY_BRACKET cmpdstmt CLOSED_CURLY_BRACKET
+
+    OPEN_CURLY_BRACKET  shift, and go to state 106
+
+
+State 104
+
+   19 tempIf: NEW_LINE •
+
+    $default  reduce using rule 19 (tempIf)
+
+
+State 105
+
+   16 ifstmt: IN_CASE boolean_condition COLON OPEN_CURLY_BRACKET NEW_LINE cmpdstmt CLOSED_CURLY_BRACKET tempIf •
+
+    $default  reduce using rule 16 (ifstmt)
+
+
+State 106
+
+    2 declaration: • type ID
+    3 type: • INTEGER
+    4     | • STRING
+    5     | • ARRAY
+    6 cmpdstmt: • stmt
+    7         | • stmt cmpdstmt
+    8 stmt: • simplstmt NEW_LINE
+    9     | • structstmt
+   10 simplstmt: • assignstmt
+   11          | • iostmt
+   12          | • declaration
+   13 structstmt: • ifstmt
+   14           | • whilestmt
+   15           | • forstmt
+   16 ifstmt: • IN_CASE boolean_condition COLON OPEN_CURLY_BRACKET NEW_LINE cmpdstmt CLOSED_CURLY_BRACKET tempIf
+   18 tempIf: ELSE OPEN_CURLY_BRACKET • cmpdstmt CLOSED_CURLY_BRACKET
+   20 forstmt: • FOR forheader COLON OPEN_CURLY_BRACKET cmpdstmt CLOSED_CURLY_BRACKET
+   22 whilestmt: • WHILE boolean_condition COLON OPEN_CURLY_BRACKET NEW_LINE cmpdstmt CLOSED_CURLY_BRACKET
+   23 assignstmt: • ID ATRIB expression
+   24           | • ID ATRIB iostmt
+   38 iostmt: • READ_VAL OPEN_ROUND_BRACKET type CLOSED_ROUND_BRACKET
+   39       | • SHOW OPEN_ROUND_BRACKET ID CLOSED_ROUND_BRACKET
+   40       | • SHOW OPEN_ROUND_BRACKET CONST CLOSED_ROUND_BRACKET
+
+    ARRAY     shift, and go to state 3
+    FOR       shift, and go to state 4
+    INTEGER   shift, and go to state 5
+    IN_CASE   shift, and go to state 6
+    READ_VAL  shift, and go to state 7
+    STRING    shift, and go to state 8
+    WHILE     shift, and go to state 9
+    SHOW      shift, and go to state 10
+    ID        shift, and go to state 11
+
+    declaration  go to state 12
+    type         go to state 13
+    cmpdstmt     go to state 107
+    stmt         go to state 15
+    simplstmt    go to state 16
+    structstmt   go to state 17
+    ifstmt       go to state 18
+    forstmt      go to state 19
+    whilestmt    go to state 20
+    assignstmt   go to state 21
+    iostmt       go to state 22
+
+
+State 107
+
+   18 tempIf: ELSE OPEN_CURLY_BRACKET cmpdstmt • CLOSED_CURLY_BRACKET
+
+    CLOSED_CURLY_BRACKET  shift, and go to state 108
+
+
+State 108
+
+   18 tempIf: ELSE OPEN_CURLY_BRACKET cmpdstmt CLOSED_CURLY_BRACKET •
+
+    $default  reduce using rule 18 (tempIf)

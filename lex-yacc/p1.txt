@@ -1,0 +1,15 @@
+start>
+//P1 Swap 2 numbers if the second number is smaller. Numbers are read from the user
+int val1
+val1 = read_val(int)
+int val2
+val2 = read_val(int)
+int aux
+show(1)
+In_case val2<val1: {
+    aux = val1
+    val1=val2
+    val2 = aux
+}
+show(0)
+<end

@@ -1,0 +1,117 @@
+%{ 	 
+#include <stdio.h>
+#include <string.h>
+int num_lines = 0;
+struct ST {
+    char identifiers[1000][1000];
+    int id_idx;
+    char constants[1000][1000];
+    int c_idx;
+
+} st;
+char PIF[1000][1000];
+int pif_idx = 0;
+
+int checkIdContains(char* el);
+int checkCContains(char* el);
+%} 
+
+%option noyywrap
+%option caseless
+
+DIGIT [0-9]
+WORD \"[a-zA-Z0-9]*\"
+NUMBER [+-]?[1-9][0-9]*|0$
+CHARACTER \'[a-zA-Z0-9]\'
+BOOLEAN true|false
+const {WORD}|{NUMBER}|{CHARACTER}|{BOOLEAN}|{DIGIT}
+id [a-zA-Z][a-zA-Z0-9_]*
+COMENT \/\/.*\n
+
+%%
+start>[ \t]*(\n|\r\n) {printf("Reserved word: %s\n", yytext); strcpy(PIF[pif_idx++], "start>");}
+{COMENT} {printf("Comment\n");}
+
+and {printf("Reserved word: %s\n", yytext); strcpy(PIF[pif_idx++], yytext);}
+array {printf( "Reserved word: %s\n", yytext); strcpy(PIF[pif_idx++], yytext);}
+else {printf( "Reserved word: %s\n", yytext); strcpy(PIF[pif_idx++], yytext);}
+for	{printf( "Reserved word: %s\n", yytext); strcpy(PIF[pif_idx++], yytext);}
+int {printf( "Reserved word: %s\n", yytext); strcpy(PIF[pif_idx++], yytext);}
+or {printf( "Reserved word: %s\n", yytext); strcpy(PIF[pif_idx++], yytext);}
+read_val {printf( "Reserved word: %s\n", yytext); strcpy(PIF[pif_idx++], yytext);}
+string {printf( "Reserved word: %s\n", yytext); strcpy(PIF[pif_idx++], yytext);}
+While {printf( "Reserved word: %s\n", yytext); strcpy(PIF[pif_idx++], yytext);}
+In_case	{printf( "Reserved word: %s\n", yytext); strcpy(PIF[pif_idx++], yytext);}
+divides	{printf( "Reserved word: %s\n", yytext); strcpy(PIF[pif_idx++], yytext);}
+increment {printf( "Reserved word: %s\n", yytext); strcpy(PIF[pif_idx++], yytext);}
+show {printf( "Reserved word: %s\n", yytext); strcpy(PIF[pif_idx++], yytext);}
+
+[ \t]*<end {printf( "Reserved word: %s\n", yytext); strcpy(PIF[pif_idx++], yytext); }
+
+{id} {printf( "Identifier: %s\n", yytext); if(checkIdContains(yytext) == 1) strcpy(st.identifiers[st.id_idx++], yytext); strcpy(PIF[pif_idx++], "identifier");}
+{const}	{printf( "Constant: %s\n", yytext); if(checkCContains(yytext) == 1) strcpy(st.constants[st.c_idx++], yytext); strcpy(PIF[pif_idx++], "constant"); }
+
+":" {printf( "Separator: %s\n", yytext ); strcpy(PIF[pif_idx++], yytext);}
+";" {printf( "Separator: %s\n", yytext ); strcpy(PIF[pif_idx++], yytext);}
+"," {printf( "Separator: %s\n", yytext ); strcpy(PIF[pif_idx++], yytext);}
+"." {printf( "Separator: %s\n", yytext ); strcpy(PIF[pif_idx++], yytext);}
+"{" {printf( "Separator: %s\n", yytext ); strcpy(PIF[pif_idx++], yytext);}
+"}" {printf( "Separator: %s\n", yytext ); strcpy(PIF[pif_idx++], yytext);}
+"(" {printf( "Separator: %s\n", yytext ); strcpy(PIF[pif_idx++], yytext);}
+")" {printf( "Separator: %s\n", yytext ); strcpy(PIF[pif_idx++], yytext);}
+"[" {printf( "Separator: %s\n", yytext ); strcpy(PIF[pif_idx++], yytext);}
+"]" {printf( "Separator: %s\n", yytext ); strcpy(PIF[pif_idx++], yytext);}
+"+" {printf( "Operator: %s\n", yytext ); strcpy(PIF[pif_idx++], yytext);}
+"-" {printf( "Operator: %s\n", yytext ); strcpy(PIF[pif_idx++], yytext);}
+"*" {printf( "Operator: %s\n", yytext ); strcpy(PIF[pif_idx++], yytext);}
+"/" {printf( "Operator: %s\n", yytext ); strcpy(PIF[pif_idx++], yytext);}
+"<" {printf( "Operator: %s\n", yytext ); strcpy(PIF[pif_idx++], yytext);}
+">" {printf( "Operator: %s\n", yytext ); strcpy(PIF[pif_idx++], yytext);}
+"<=" {printf( "Operator: %s\n", yytext ); strcpy(PIF[pif_idx++], yytext);}
+">=" {printf( "Operator: %s\n", yytext ); strcpy(PIF[pif_idx++], yytext);}
+"!=" {printf( "Operator: %s\n", yytext ); strcpy(PIF[pif_idx++], yytext);}
+"==" {printf( "Operator: %s\n", yytext ); strcpy(PIF[pif_idx++], yytext);}
+"=" {printf( "Separator: %s\n", yytext ); strcpy(PIF[pif_idx++], yytext);}
+"!" {printf( "Operator: %s\n", yytext ); strcpy(PIF[pif_idx++], yytext);}
+
+[ \t\v\f]+
+[\n|\r\n]+ {num_lines++; printf("\n");}
+. {printf("Illegal character at line %d: %s\n", num_lines, yytext); }
+
+%%
+int checkIdContains(char* el){
+    for(int i=0; i<st.id_idx; i++)
+        if(strcmp(st.identifiers[i],el) == 0)
+            return 0;
+    return 1;
+}
+
+int checkCContains(char* el){
+    for(int i=0; i<st.c_idx; i++)
+        if(strcmp(st.constants[i],el) == 0)
+            return 0;
+    return 1;
+}
+
+
+int main( argc, argv ) 
+int argc; 
+char **argv; 
+{ 
+    st.id_idx = 0;
+    st.c_idx = 0;
+    ++argv, --argc; /* skip over program name */ 
+    if ( argc > 0 ) 
+    yyin = fopen( argv[0], "r" ); 
+    else 
+     yyin = stdin; 
+    yylex(); 
+    printf("ST\n");
+    for(int i=0; i<st.id_idx; i++)
+        printf("ID %d: %s\n", i, st.identifiers[i]);
+    for(int i=0; i<st.c_idx; i++)
+        printf("CONST %d: %s\n", i, st.constants[i]);
+    printf("\nPIF\n");
+    for(int i=0; i<pif_idx; i++)
+        printf("%d: %s\n", i, PIF[i]);
+} 
