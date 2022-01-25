@@ -17,6 +17,9 @@ class Scanner:
 
     def readTokens(self):
         with open("IO_files/token.in", "r") as f:
+            ### This is a COMMENT made by Ana-Doris Moisuc & Andrei-Ovidiu Muntean
+            # Try to avoid magic numbers in your code. Remove (15, 10, 14, 22 a.s.o.)
+            ###
             for _ in range(15):  # we have 15 operators
                 operator = f.readline().strip()
                 self.operators.append(operator)

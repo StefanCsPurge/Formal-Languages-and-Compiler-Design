@@ -20,6 +20,11 @@ def readSequence(pif_file):
 
 def printCanonicalCollection(col):
     print("Canonical collection:")
+    ### This is a COMMENT made by Ana-Doris Moisuc & Andrei-Ovidiu Muntean
+    # Try looking into enumerate
+    # A more pythonic way of achieving the same result would be
+    # for i, col_items in enumerate(col):
+    ###
     for i in range(len(col)):
         print(f"State {i}: ", end="")
         for item in col[i]:

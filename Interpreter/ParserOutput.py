@@ -40,6 +40,10 @@ class ParserOutput:
             level += 1
 
     def addChild(self, node: TreeNode, info, index, level):
+        ### This is a COMMENT made by Ana-Doris Moisuc & Andrei-Ovidiu Muntean
+        # I like how you've specified the formal parameters type
+        # You could also specify the return types, as it is not obvious from the context
+        ###
         if node is None:
             return None
 
